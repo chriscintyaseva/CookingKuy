@@ -4,8 +4,417 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cooking Kuy - Resep Masakan Indonesia</title>
-    <link rel="stylesheet" href="style.css"> </head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- RESET & VARIABEL --- */
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #ff9f43;
+            --dark: #2d3436;
+            --light: #f7f1e3;
+            --white: #ffffff;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #fff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+            border-radius: 10px;
+        }
+
+        /* --- HEADER & NAVIGASI --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            gap: 10px;
+        }
+
+        .logo-icon { font-size: 2rem; }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+        /* --- HERO SECTION (PERBAIKAN GAMBAR) --- */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4rem 0;
+            gap: 3rem; /* Jarak antara teks dan gambar */
+        }
+
+        .hero-text { 
+            flex: 1; 
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero p { color: #636e72; margin-bottom: 2rem; }
+
+        /* --- INI YANG DIPERBAIKI AGAR TIDAK KEGEDEAN --- */
+        .hero-image {
+            flex: 1;
+            max-width: 450px; /* Membatasi lebar gambar maksimal 450px */
+            height: auto;     /* Tinggi menyesuaikan agar tidak gepeng */
+            box-shadow: var(--shadow);
+            border-radius: 20px;
+            object-fit: cover;
+        }
+
+        .cta-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background-color: #ee5253;
+            transform: translateY(-3px);
+        }
+
+        /* --- SEARCH --- */
+        .search-section {
+            background-color: var(--light);
+            padding: 3rem 20px;
+            text-align: center;
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        .search-box {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .search-input {
+            padding: 12px 20px;
+            width: 100%;
+            max-width: 400px;
+            border: 2px solid #dfe6e9;
+            border-radius: 50px;
+            outline: none;
+        }
+
+        .search-button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* --- RESEP (GRID SYSTEM) --- */
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin: 3rem 0;
+            color: var(--dark);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--secondary);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding-bottom: 3rem;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+            cursor: pointer;
+            border: 1px solid #eee;
+        }
+
+        .recipe-card:hover { transform: translateY(-5px); }
+
+        .recipe-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .recipe-content { padding: 1.5rem; }
+
+        .recipe-title { color: var(--primary); margin-bottom: 0.5rem; }
+
+        .recipe-description {
+            font-size: 0.9rem;
+            color: #636e72;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+
+        .recipe-time {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        .recipe-button {
+            background: none;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        /* --- TENTANG KAMI & TIM --- */
+        .about-grid, .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .about-card, .team-member {
+            text-align: center;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid #eee;
+        }
+
+        .about-icon, .member-avatar { font-size: 3rem; margin-bottom: 1rem; }
+
+        /* --- STATISTIK --- */
+        .stats-section {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .stat-number { font-size: 2.5rem; font-weight: bold; }
+
+        /* --- KONTAK --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-icon { font-size: 2rem; }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        /* --- MODAL (POPUP) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            animation: slideDown 0.4s;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #aaa;
+        }
+        
+        .close:hover { color: #000; }
+
+        .modal-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .ingredients, .steps {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .ingredients ul, .steps ol {
+            padding-left: 20px;
+            margin-top: 0.5rem;
+        }
+
+        /* --- MEDIA QUERY KHUSUS HP --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Menu sederhana di HP */
+            
+            .hero {
+                flex-direction: column-reverse; /* Gambar di atas teks di HP */
+                text-align: center;
+                padding: 2rem 0;
+            }
+
+            .hero h1 { font-size: 2rem; }
+            
+            /* Di HP gambar tetap dibatasi, tapi full width layar */
+            .hero-image {
+                width: 80%; 
+                max-width: 300px; /* Lebih kecil lagi di HP biar manis */
+                margin: 0 auto;
+            }
+
+            .stats-section { flex-direction: column; gap: 2rem; }
+            
+            .modal-content { margin: 15% auto; width: 95%; }
+        }
+    </style>
+</head>
 <body>
+
     <header>
         <nav class="container">
             <div class="logo">
@@ -13,7 +422,7 @@
                 Cooking Kuy
             </div>
             <ul class="nav-links">
-                <li><a href="#home" class="active">BERANDA</a></li>
+                <li><a href="#home">BERANDA</a></li>
                 <li><a href="#recipes">RESEP</a></li>
                 <li><a href="#about">TENTANG KAMI</a></li>
             </ul>
@@ -22,32 +431,34 @@
 
     <main class="container">
         <section class="hero" id="home">
-            <h1>SELAMAT DATANG DI COOKING KUY!</h1>
-            <p>Cooking Kuy tempat di mana setiap resep bukan sekadar masakan, melainkan kisah yang diolah dengan cinta dan penuh kehangatan. Di sini, kamu akan menemukan berbagai kreasi kuliner dan berbagai daerah, yang siap menginspirasi dan memanjakan lidah di setiap momen spesialmu.</p>
-            <a href="#recipes" class="cta-button">JELAJAHI RESEP</a>
-            
-            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Happy cooking" class="hero-image">
+            <div class="hero-text">
+                <h1>SELAMAT DATANG DI COOKING KUY!</h1>
+                <p>Temukan resep masakan rumahan yang lezat, praktis, dan penuh cerita. Kami menghadirkan inspirasi kuliner Nusantara langsung ke dapur Anda.</p>
+                <a href="#recipes" class="cta-button">JELAJAHI RESEP</a>
+            </div>
+            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Cooking" class="hero-image">
         </section>
 
         <section class="search-section">
-            <h2>Cari Resep Favoritmu</h2>
+            <h2>Mau masak apa hari ini?</h2>
             <div class="search-box">
-                <input type="text" class="search-input" placeholder="Masukkan nama masakan...">
+                <input type="text" class="search-input" placeholder="Cari resep (misal: Pecel)">
                 <button class="search-button">Cari</button>
             </div>
         </section>
 
         <section class="featured" id="recipes">
-            <h2 class="section-title">SERING DIKUNJUNGI</h2>
+            <h2 class="section-title">RESEP FAVORIT</h2>
             <div class="recipe-grid">
+                
                 <div class="recipe-card" onclick="openModal('es-buah')">
                     <img src="esbuah.jpg" alt="Es Buah" class="recipe-image">
                     <div class="recipe-content">
-                        <h3 class="recipe-title">ES BUAH</h3>
-                        <p class="recipe-description">Rasakan kesegaran alami dalam setiap seruput Es Buah, perpaduan buah segar dan sirup manis yang sempurna</p>
+                        <h3 class="recipe-title">ES BUAH SEGAR</h3>
+                        <p class="recipe-description">Kesegaran buah asli dipadu dengan sirup manis dan susu kental manis. Cocok untuk cuaca panas.</p>
                         <div class="recipe-meta">
-                            <span class="recipe-time">DURASI 15 MENIT</span>
-                            <button class="recipe-button">LIHAT RESEP</button>
+                            <span class="recipe-time">⏱ 15 MENIT</span>
+                            <button class="recipe-button">LIHAT</button>
                         </div>
                     </div>
                 </div>
@@ -55,170 +466,126 @@
                 <div class="recipe-card" onclick="openModal('pecel')">
                     <img src="pecel.jpg" alt="Pecel" class="recipe-image">
                     <div class="recipe-content">
-                        <h3 class="recipe-title">PECEL</h3>
-                        <p class="recipe-description">Rasakan harmoni rasa tradisional dari Pecel dengan siraman sambal kacang yang kaya rempah</p>
+                        <h3 class="recipe-title">NASI PECEL</h3>
+                        <p class="recipe-description">Sayuran rebus segar disiram bumbu kacang pedas manis khas Jawa Timur. Sehat dan nikmat.</p>
                         <div class="recipe-meta">
-                            <span class="recipe-time">DURASI 30-40 MENIT</span>
-                            <button class="recipe-button">LIHAT RESEP</button>
+                            <span class="recipe-time">⏱ 30 MENIT</span>
+                            <button class="recipe-button">LIHAT</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="recipe-card" onclick="openModal('TAHUTEK')">
-                    <img src="tahu tek.jpg" alt="tahutek" class="recipe-image">
+                <div class="recipe-card" onclick="openModal('tahutek')">
+                    <img src="tahu tek.jpg" alt="Tahu Tek" class="recipe-image">
                     <div class="recipe-content">
                         <h3 class="recipe-title">TAHUTEK</h3>
-                        <p class="recipe-description">Rasakan kelezatan otentik Tahu Tek, paduan tahu goreng, lontong, dan sayuran segar yang disiram sambal kacang petis pedas manis</p>
+                        <p class="recipe-description">Tahu goreng, lontong, dan kentang dengan siraman bumbu petis yang gurih dan kerupuk.</p>
                         <div class="recipe-meta">
-                            <span class="recipe-time">DURASI 20 MENIT</span>
-                            <button class="recipe-button">LIHAT RESEP</button>
+                            <span class="recipe-time">⏱ 20 MENIT</span>
+                            <button class="recipe-button">LIHAT</button>
                         </div>
                     </div>
                 </div>
+
             </div>
         </section>
 
         <section class="about-section" id="about">
             <h2 class="section-title">TENTANG KAMI</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <div class="about-card">
-                        <div class="about-icon">🍳</div>
-                        <h3>Misi Kami</h3>
-                        <p>Cooking Kuy hadir untuk membantu setiap orang menemukan kebahagiaan melalui memasak. Kami percaya bahwa setiap hidangan yang dibuat dengan cinta akan menciptakan kenangan indah bersama keluarga dan teman-teman tercinta.</p>
-                    </div>
-                    
-                    <div class="about-card">
-                        <div class="about-icon">❤</div>
-                        <h3>Filosofi Kami</h3>
-                        <p>Masakan bukan hanya tentang rasa, tetapi tentang cerita, tradisi, dan kasih sayang yang kita tuangkan dalam setiap proses memasak. Di Cooking Kuy, kami menghadirkan resep-resep autentik dengan sentuhan modern yang mudah dipraktikkan di rumah.</p>
-                    </div>
-                    
-                    <div class="about-card">
-                        <div class="about-icon">🌟</div>
-                        <h3>Visi Kami</h3>
-                        <p>Menjadi platform kuliner terdepan yang menginspirasi jutaan keluarga Indonesia untuk menciptakan momen kebersamaan melalui masakan rumahan yang lezat dan bergizi. Kami berkomitmen melestarikan kekayaan kuliner Nusantara untuk generasi mendatang.</p>
-                    </div>
+            
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="about-icon">🍳</div>
+                    <h3>Misi</h3>
+                    <p>Membawa kebahagiaan ke setiap meja makan melalui resep yang mudah dan lezat.</p>
                 </div>
-                
-                <div class="team-section">
-                    <h3>Tim Cooking Kuy</h3>
-                    <div class="team-grid">
-                        <div class="team-member">
-                            <div class="member-avatar">👨‍🍳</div>
-                            <h4>RAPIPO</h4>
-                            <p>Head Chef & Co-Founder</p>
-                            <span>15+ tahun pengalaman kuliner</span>
-                        </div>
-                        
-                        <div class="team-member">
-                            <div class="member-avatar">👩‍🍳</div>
-                            <h4>Chef A(seva)</h4>
-                            <p>Recipe Developer</p>
-                            <span>Spesialis masakan tradisional</span>
-                        </div>
-                        
-                        <div class="team-member">
-                            <div class="member-avatar">📱</div>
-                            <h4>ezar</h4>
-                            <p>Tech Lead</p>
-                            <span>Menghadirkan teknologi untuk kuliner</span>
-                        </div>
-                        
-                        <div class="team-member">
-                            <div class="member-avatar">📝</div>
-                            <h4>islo</h4>
-                            <p>Content Creator</p>
-                            <span>Storyteller makanan Indonesia</span>
-                        </div>
-                    </div>
+                <div class="about-card">
+                    <div class="about-icon">❤</div>
+                    <h3>Filosofi</h3>
+                    <p>Masakan adalah bahasa cinta universal yang menyatukan keluarga.</p>
                 </div>
-                
-                <div class="stats-section">
-                    <div class="stat-item">
-                        <div class="stat-number">1+</div>
-                        <div class="stat-label">Resep Tersedia</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">1 JT+</div>
-                        <div class="stat-label">Pengguna Aktif</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">1+</div>
-                        <div class="stat-label">Daerah Asal Resep</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">4.9⭐</div>
-                        <div class="stat-label">Rating Pengguna</div>
-                    </div>
+            </div>
+
+            <h3 style="text-align:center; margin-bottom: 2rem;">TIM KAMI</h3>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-avatar">👨‍🍳</div>
+                    <h4>RAPIPO</h4>
+                    <p>Head Chef</p>
                 </div>
-                
-                <div class="contact-info">
-                    <h3>Hubungi Kami</h3>
-                    <div class="contact-grid">
-                        <div class="contact-item">
-                            <div class="contact-icon">📧</div>
-                            <div>
-                                <strong>Email</strong>
-                                <p>cookingkuy@gmail.com</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">📱</div>
-                            <div>
-                                <strong>WhatsApp</strong>
-                                <p>+62 123-456-789</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">📍</div>
-                            <div>
-                                <strong>Alamat</strong>
-                                <p>Surabaya, Indonesia</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">🕒</div>
-                            <div>
-                                <strong>Jam Operasional</strong>
-                                <p>Senin - Jumat: 09:00 - 18:00</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="team-member">
+                    <div class="member-avatar">👩‍🍳</div>
+                    <h4>Chef A(seva)</h4>
+                    <p>Recipe Dev</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">📱</div>
+                    <h4>Ezar</h4>
+                    <p>Tech Lead</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">📝</div>
+                    <h4>Islo</h4>
+                    <p>Content</p>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-item"><div class="stat-number">100+</div><div>Resep</div></div>
+                <div class="stat-item"><div class="stat-number">1K+</div><div>Pengguna</div></div>
+                <div class="stat-item"><div class="stat-number">4.9⭐</div><div>Rating</div></div>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div><strong>Email</strong><br>cookingkuy@gmail.com</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div><strong>Lokasi</strong><br>Surabaya, Indonesia</div>
                 </div>
             </div>
         </section>
     </main>
 
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo" style="color: white; justify-content: center;">
+                    <div class="logo-icon">🍳</div> Cooking Kuy
+                </div>
+                <p>&copy; 2024 Cooking Kuy. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#">📘</a> <a href="#">📷</a> <a href="#">🎵</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <div id="es-buah" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeModal('es-buah')">&times;</span>
             <img src="esbuah.jpg" alt="Es Buah" class="modal-image">
-            <h2>ES BUAH</h2>
-            <p><strong>Waktu Persiapan:</strong> 15 menit</p>
+            <h2>RESEP ES BUAH</h2>
             <div class="ingredients">
                 <h3>Bahan-bahan:</h3>
                 <ul>
-                    <li>2 buah apel, potong dadu</li>
-                    <li>1 buah pir, potong dadu</li>
-                    <li>100g anggur, belah dua</li>
-                    <li>2 buah jeruk, ambil dagingnya</li>
-                    <li>100ml sirup merah</li>
+                    <li>2 buah apel & 1 pir (potong dadu)</li>
+                    <li>100g anggur & melon</li>
+                    <li>100ml sirup cocopandan</li>
                     <li>100ml susu kental manis</li>
-                    <li>Es batu secukupnya</li>
-                    <li>Air matang 500ml</li>
+                    <li>Es batu & Air secukupnya</li>
                 </ul>
             </div>
-            <div class="ingredients">
+            <div class="steps">
                 <h3>Cara Membuat:</h3>
                 <ol>
-                    <li>Cuci bersih semua buah, lalu potong-potong sesuai selera</li>
-                    <li>Campurkan semua buah dalam mangkuk besar</li>
-                    <li>Dalam gelas terpisah, campur sirup merah, susu kental manis, dan sedikit air</li>
-                    <li>Tuang campuran sirup ke atas buah, aduk rata</li>
-                    <li>Tambahkan es batu secukupnya</li>
-                    <li>Sajikan dalam gelas tinggi, hiasi dengan daun mint jika ada</li>
-                    <li><strong>Tips:</strong> Gunakan buah yang segar dan manis untuk hasil terbaik!</li>
+                    <li>Cuci bersih dan potong semua buah.</li>
+                    <li>Masukkan buah ke dalam mangkuk besar.</li>
+                    <li>Campurkan air, sirup, dan susu dalam wadah terpisah, aduk rata.</li>
+                    <li>Tuang kuah susu ke atas buah.</li>
+                    <li>Tambahkan es batu. Sajikan dingin.</li>
                 </ol>
             </div>
         </div>
@@ -226,109 +593,78 @@
 
     <div id="pecel" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeModal('pecel')">&times;</span>
             <img src="pecel.jpg" alt="Pecel" class="modal-image">
-            <h2>PECEL</h2>
-            <p><strong>Waktu Persiapan:</strong> 30-40 menit</p>
-            <div class="ingredients">
-                <h3>Bahan Sayuran:</h3>
-                <ul>
-                    <li>100g bayam, rebus</li>
-                    <li>100g kangkung, rebus</li>
-                    <li>100g kacang panjang, rebus</li>
-                    <li>100g tauge, rebus sebentar</li>
-                    <li>2 buah tempe, goreng</li>
-                    <li>Kerupuk secukupnya</li>
-                </ul>
-            </div>
-            <div class="ingredients">
-                <h3>Bumbu Pecel:</h3>
-                <ul>
-                    <li>200g kacang tanah sangrai</li>
-                    <li>5 cabai rawit</li>
-                    <li>2 siung bawang putih</li>
-                    <li>1 sdt garam</li>
-                    <li>1 sdt gula merah</li>
-                    <li>Air asam jawa secukupnya</li>
-                </ul>
-                </div>
-            <div class="ingredients">
-                <h3>Cara Membuat:</h3>
-                <ol>
-                    <li><strong>Persiapan Sayuran:</strong> Rebus semua sayuran satu per satu hingga matang tapi masih renyah. Tiriskan dan sisihkan.</li>
-                    <li><strong>Membuat Bumbu:</strong> Goreng kacang tanah hingga matang, dinginkan lalu haluskan bersama cabai, bawang putih, garam, dan gula merah.</li>
-                    <li><strong>Mencampur Bumbu:</strong> Tambahkan air asam jawa sedikit demi sedikit sambil diaduk hingga bumbu menjadi pasta yang kental.</li>
-                    <li><strong>Penyajian:</strong> Tata sayuran rebus di piring, siram dengan bumbu pecel.</li>
-                    <li><strong>Pelengkap:</strong> Tambahkan tempe goreng dan kerupuk sebagai pelengkap.</li>
-                    <li><strong>Tips:</strong> Bumbu pecel bisa dibuat lebih asin atau manis sesuai selera. Sajikan segera setelah disiram bumbu agar sayuran tetap segar.</li>
-                </ol>
-            </div>
-            </div>
-    </div>
-
-    <div id="TAHUTEK" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <img src="tahu tek.jpg" alt="TAHU TEK" class="modal-image">
-            <h2>TAHUTEK</h2>
-            <p><strong>Waktu Persiapan:</strong> 25 menit</p>
+            <h2>RESEP NASI PECEL</h2>
             <div class="ingredients">
                 <h3>Bahan-bahan:</h3>
                 <ul>
-                    <li>100g tahu, goreng</li>
-                    <li>100g tempe, goreng</li>
-                    <li>2 butir telur rebus</li>
-                    <li>100g kentang rebus</li>
-                    <li>100g kacang panjang rebus</li>
-                    <li>100g tauge rebus</li>
-                    <li>Selada secukupnya</li>
-                    <li>Kerupuk untuk pelengkap</li>
+                    <li>Sayuran: Bayam, Tauge, Kacang Panjang (Rebus)</li>
+                    <li>Bumbu: 200g kacang tanah, cabai, gula merah, asam jawa</li>
+                    <li>Pelengkap: Rempeyek, Tempe Goreng</li>
                 </ul>
             </div>
-            <div class="ingredients">
-                <h3>Bumbu Kacang:</h3>
-                <ul>
-                    <li>200g kacang tanah goreng</li>
-                    <li>3 cabai rawit</li>
-                    <li>2 siung bawang putih</li>
-                    <li>1 sdt garam</li>
-                    <li>2 sdm gula jawa</li>
-                    <li>1 sdt terasi bakar</li>
-                    <li>Air matang secukupnya</li>
-                </ul>
-            </div>
-            <div class="ingredients">
+            <div class="steps">
                 <h3>Cara Membuat:</h3>
                 <ol>
-                    <li><strong>Persiapan Bahan:</strong> Goreng tahu dan tempe hingga kecokelatan, rebus telur dan kentang hingga matang.</li>
-                    <li><strong>Rebus Sayuran:</strong> Rebus kacang panjang dan tauge sebentar agar tetap renyah, tiriskan.</li>
-                    <li><strong>Membuat Bumbu Kacang:</strong> Haluskan kacang tanah goreng, cabai rawit, bawang putih, garam, gula jawa, dan terasi.</li>
-                    <li><strong>Mengencerkan Bumbu:</strong> Tambahkan air matang sedikit demi sedikit sambil diaduk hingga kekentalan sesuai selera.</li>
-                    <li><strong>Penyajian:</strong> Tata semua bahan (tahu, tempe, telur, kentang, sayuran, selada) di piring.</li>
-                    <li><strong>Finalisasi:</strong> Siram dengan bumbu kacang, taburi kerupuk yang sudah diremah.</li>
-                    <li><strong>Tips:</strong> Bumbu kacang sebaiknya tidak terlalu encer agar menempel sempurna pada sayuran. Sajikan segera setelah disiram bumbu!</li>
+                    <li>Rebus semua sayuran hingga matang, tiriskan.</li>
+                    <li>Goreng kacang tanah dan haluskan bersama bumbu lainnya.</li>
+                    <li>Seduh bumbu pecel dengan air hangat hingga kental.</li>
+                    <li>Tata sayur di piring, siram bumbu kacang.</li>
+                    <li>Sajikan dengan nasi hangat dan rempeyek.</li>
                 </ol>
             </div>
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="logo">
-                    <div class="logo-icon">🍳</div>
-                    Cooking Kuy
-                </div>
-                <p>&copy; 2024 Cooking Kuy. Semua hak cipta dilindungi.</p>
-                <div class="social-links">
-                    <a href="#" title="Facebook">📘</a>
-                    <a href="#" title="Instagram">📷</a>
-                    <a href="#" title="TikTok">🎵</a>
-                    <a href="#" title="YouTube">📺</a>
-                </div>
+    <div id="tahutek" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('tahutek')">&times;</span>
+            <img src="tahu tek.jpg" alt="Tahu Tek" class="modal-image">
+            <h2>RESEP TAHU TEK</h2>
+            <div class="ingredients">
+                <h3>Bahan-bahan:</h3>
+                <ul>
+                    <li>Tahu putih & Telur (Goreng dadar atau potong)</li>
+                    <li>Lontong & Kentang rebus</li>
+                    <li>Tauge pendek</li>
+                    <li>Bumbu: Kacang tanah, Petis udang, Bawang putih, Cabai</li>
+                </ul>
+            </div>
+            <div class="steps">
+                <h3>Cara Membuat:</h3>
+                <ol>
+                    <li>Goreng tahu setengah matang.</li>
+                    <li>Ulek kacang tanah, bawang, cabai, dan petis hingga halus. Tambahkan sedikit air.</li>
+                    <li>Potong lontong, tahu, dan kentang di piring.</li>
+                    <li>Taburi tauge, lalu siram dengan bumbu petis.</li>
+                    <li>Taburi kerupuk udang yang dihancurkan.</li>
+                </ol>
             </div>
         </div>
-    </footer>
+    </div>
 
-    <script src="script.js"></script> </body>
+    <script>
+        // Fungsi Buka Modal
+        function openModal(id) {
+            document.getElementById(id).style.display = "block";
+            document.body.style.overflow = "hidden"; // Mencegah scroll belakang
+        }
+
+        // Fungsi Tutup Modal
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+            document.body.style.overflow = "auto"; // Mengaktifkan scroll kembali
+        }
+
+        // Tutup modal jika klik di luar area konten
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        }
+    </script>
+
+</body>
 </html>
